@@ -39,17 +39,15 @@ function EditPage() {
         return <ThreeImage id={id} dataList={dataList} setDataList={setDataList}/>;
 
       case '도형1':
-        return <AboutMe id={id} dataList={dataList} setDataList={setDataList}/>;
+        return <Profile id={id} dataList={dataList} setDataList={setDataList}/>;
       
       case '도형2':
         return <Scroll id={id} dataList={dataList} setDataList={setDataList}/>;
       
       case '도형3':
-        return <Profile id={id} dataList={dataList} setDataList={setDataList}/>;
+        return <AboutMe id={id} dataList={dataList} setDataList={setDataList}/>;
+
         
-      case '도형4':
-        return <ColorPicker/>;
-      
       
       default:
         return <div>HELL</div>;
@@ -197,106 +195,130 @@ function EditPage() {
   const ITEMS = [
     {
         id: uuidv4(),
+        title: "프로필",
         content: '도형1',
     },
     {
         id: uuidv4(),
+        title: '액티브 슬라이드',
         content: '도형2',
     },
     {
         id: uuidv4(),
+        title: 'About Me',
         content: '도형3',
     },
     {
         id: uuidv4(),
+        title: '도형4',
         content: '도형4',
     },
   ];
   const ITEMS2 = [
       {
           id: uuidv4(),
+          title: '글상자1',
           content: '글상자1',
       },
       {
           id: uuidv4(),
+          title: '글상자2',
           content: '글상자2',
       },
       {
           id: uuidv4(),
+          title: '글상자3',
           content: '글상자3',
       },
       {
           id: uuidv4(),
+          title: '글상자4',
           content: '글상자4',
       },
       {
           id: uuidv4(),
+          title: '글상자5',
           content: '글상자5',
       },
   ];
   const ITEMS3 = [
       {
           id: uuidv4(),
+          title: '배너 이미지',
           content: '이미지1',
       },
       {
           id: uuidv4(),
+          title: '3-set 이미지',
           content: '이미지2',
       },
       {
           id: uuidv4(),
+          title: '이미지3',
           content: '이미지3',
       },
       {
           id: uuidv4(),
+          title: '이미지4',
           content: '이미지4',
       },
       {
           id: uuidv4(),
+          title: '이미지5',
           content: '이미지5',
       },
   ];
   const ITEMS4 = [
       {
           id: uuidv4(),
+          title: '그래프1',
           content: '그래프1',
       },
       {
           id: uuidv4(),
+          title: '그래프2',
           content: '그래프2',
       },
       {
           id: uuidv4(),
+          title: '그래프3',
           content: '그래프3',
       },
       {
           id: uuidv4(),
+          title: '그래프4',
           content: '그래프4',
       },
       {
           id: uuidv4(),
+          title: '그래프5',
           content: '그래프5',
       },
   ];
   const ITEMS5 = [
       {
           id: uuidv4(),
+          title: '연대기1',
           content: '연대기1',
       },
       {
           id: uuidv4(),
+          title: '연대기2',
           content: '연대기2',
       },
       {
           id: uuidv4(),
+          title: '연대기3',
           content: '연대기3',
       },
       {
           id: uuidv4(),
+          title: '연대기4',
           content: '연대기4',
       },
       {
           id: uuidv4(),
+          title: '연대기5',
           content: '연대기5',
       },
   ];
@@ -526,10 +548,10 @@ function EditPage() {
                         {...provided.dragHandleProps}
                         isdragging={snapshot.isDragging.toString()}
                         style={provided.draggableProps.style}>
-                        {item.content}
+                        {item.title}
                       </Item>
                       {snapshot.isDragging && (
-                        <Clone>{item.content}</Clone>
+                        <Clone>{item.title}</Clone>
                       )}
                     </React.Fragment>
                   )}

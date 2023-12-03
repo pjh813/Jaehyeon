@@ -109,14 +109,13 @@ textarea{
 }
 .image-upload-Btn{
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 97%;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: .3s;
   background: #efefef;
-  border-radius: 100vh;
   overflow: hidden;
   cursor: pointer;
 }
@@ -607,3 +606,6 @@ textarea{
 .block-colorPicker-container.visible{
   display: block;
 }
+
+
+/* ---------------------------------------------------------------------------------------- */
