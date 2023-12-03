@@ -18,6 +18,8 @@ import Profile from "../components/Profile.js";
 import ColorPicker from "../components/ColorPicker.js";
 
 function EditPage() {
+  // navigator
+  let navigator = useNavigate();
   // 영역 관리 state
   const [state, setState] = useState({[uuidv4()]: []})
   
@@ -186,6 +188,23 @@ function EditPage() {
       font-size: 1rem;
       cursor: pointer;
   `;
+  const Button2 = styled.button`
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      margin: 0.5rem;
+      padding: 0.5rem;
+      color: #000;
+      border: 1px solid #ddd;
+      background: #ffffff5b;
+      border-radius: 3px;
+      font-size: 1rem;
+      cursor: pointer;
+  `;
   
   const ButtonText = styled.div`
       margin: 0 1rem;
@@ -207,11 +226,6 @@ function EditPage() {
         id: uuidv4(),
         title: 'About Me',
         content: '도형3',
-    },
-    {
-        id: uuidv4(),
-        title: '도형4',
-        content: '도형4',
     },
   ];
   const ITEMS2 = [
@@ -572,15 +586,19 @@ function EditPage() {
       </Droppable>
       <div ref={bgRef} className="bg">
       <Content>
-          <Button onClick={addList}>
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path
-                fill="currentColor"
-                d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-              />
-            </svg>
-            <ButtonText>구역 생성</ButtonText>
-          </Button>
+      <Button onClick={addList}>
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+          />
+        </svg>
+        <ButtonText>구역 생성</ButtonText>
+      </Button>
+      <Button2 onClick={()=>{navigator("./result", {state: {dataList:dataList, stateList: state}})}}>
+        <ButtonText>구역 생성</ButtonText>
+      </Button2>
+      
       {Object.keys(state).map((list, i) => {
         console.log('==> list', list);
         return (
