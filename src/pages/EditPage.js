@@ -6,13 +6,16 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { BiLeftArrow, BiCube, BiCommentDetail, BiImageAdd } from "react-icons/bi";
 import { GoGraph } from "react-icons/go";
-import { PiFlowArrowFill } from "react-icons/pi";
+import { PiFrameCornersBold, PiFlowArrowFill } from "react-icons/pi";
+import { SketchPicker } from 'react-color';
+import { Sketch } from "@uiw/react-color";
 
 import ImageAdaptor from "../components/ImageAdaptor.js";
 import ThreeImage from "../components/ThreeImage.js";
 import AboutMe from "../components/AboutMe.js";
 import Scroll from "../components/Scroll.js";
 import Profile from "../components/Profile.js";
+import ColorPicker from "../components/ColorPicker.js";
 
 function EditPage() {
   // 영역 관리 state
@@ -41,9 +44,13 @@ function EditPage() {
       case '도형2':
         return <Scroll id={id} dataList={dataList} setDataList={setDataList}/>;
       
-        case '도형3':
+      case '도형3':
         return <Profile id={id} dataList={dataList} setDataList={setDataList}/>;
-
+        
+      case '도형4':
+        return <ColorPicker/>;
+      
+      
       default:
         return <div>HELL</div>;
     }
@@ -86,7 +93,14 @@ function EditPage() {
   };
   
   const Content = styled.div`
-      margin-left: 280px;
+      /* margin-left: 280px; */
+      min-width: 1200px;
+      width: calc(100vw - 280px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding-top: 50px;
   `;
   
   const Item = styled.div`
@@ -98,7 +112,7 @@ function EditPage() {
       align-content: flex-start;
       line-height: 1.5;
       border-radius: 3px;
-      background: #fff;
+      /* background: #fff; */
       border: 1px ${props => (props.isdragging == 'true' ? 'dashed #4099ff' : 'solid #ddd')};
   `;
   
@@ -140,8 +154,9 @@ function EditPage() {
   
   const Container = styled(List)`
       margin: 0.5rem 0.5rem 1.5rem;
-      min-width: 1100px;
-      background: #ccc;
+      min-width: 1050px;
+      background: #ffffff00;
+      width: 80%;
   `;
   
   const Notice = styled.div`
@@ -157,6 +172,9 @@ function EditPage() {
   `;
   
   const Button = styled.button`
+      position: absolute;
+      top: 0;
+      left: 0;
       display: flex;
       align-items: center;
       align-content: center;
@@ -165,7 +183,7 @@ function EditPage() {
       padding: 0.5rem;
       color: #000;
       border: 1px solid #ddd;
-      background: #fff;
+      background: #ffffff5b;
       border-radius: 3px;
       font-size: 1rem;
       cursor: pointer;
@@ -342,15 +360,17 @@ function EditPage() {
       if(item.classList.contains("clicked")){
         if(index == idx){
           categoryBtnRef.current[idx].classList.remove("clicked")
+          if(index == 0){
+            bgCtlRef.current.classList.remove("visible");
+
+          }
           setPage(-1);
-          return;
         }
         else item.classList.remove("clicked");
       }
       else if(index == idx){
         item.classList+= " clicked";
         setPage(idx);
-        return;
       }
     })
   }
@@ -363,22 +383,27 @@ function EditPage() {
   useEffect(()=>{
     switch (page) {
       case 0:
+        setKioItem();
+        bgCtlRef.current.classList.remove("none")
+        bgCtlRef.current.classList += " visible";
+        break;
+      case 1:
         setKioItem(ITEMS);
         break;
       
-      case 1:
+      case 2:
         setKioItem(ITEMS2);
         break;
       
-      case 2:
+      case 3:
         setKioItem(ITEMS3);
         break;
       
-      case 3:
+      case 4:
         setKioItem(ITEMS4);
         break;
 
-      case 4:
+      case 5:
         setKioItem(ITEMS5);
         break;
     
@@ -387,40 +412,81 @@ function EditPage() {
         break;
     }
   },[page])
-
+  useEffect(()=>{
+    if(page == 0){
+      bgCtlRef.current.classList.remove("none")
+      bgCtlRef.current.classList += " visible";
+    }
+    else{
+      bgCtlRef.current.classList += " none"
+    }
+  },[kioItem])
+  useEffect(()=>{
+    if(page == 0){
+      bgCtlRef.current.classList = "bg-controller visible";
+    }
+    else{
+      bgCtlRef.current.classList = "bg-controller none"
+    }
+  })
   const resRef = useRef([]);
-  const [imageList, setImageList] = useState([]); //이미지 리소스 넣기
-
+  const [bgColor, setBgColor] = useState('#fff');
+  useEffect(()=>{
+    bgRef.current.style.backgroundColor = bgColor;
+  },[bgColor])
+  const bgRef = useRef();
+  const bgCtlRef = useRef();
+  
+  
+  const [textColor, setTextColor] = useState('#000');
+  useEffect(()=>{
+  },[textColor])
+  useEffect(()=>{
+    let ta = document.getElementsByTagName("textarea");
+    if(ta.length !== 0){
+      ta = [...ta]
+      console.log(ta);
+      ta.forEach((it)=>{
+        it.style.color=textColor;
+      })
+    }
+  })
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className='category-container'>
         {/* state로 map 뿌리도록 바꿀 예정? */}
         <div className="category-item-container">
           <div className='category-item' ref={(el)=>{categoryBtnRef.current[0]=el}} onClick={()=>{flip(0)}}>
+            <div className='category-item-front'><PiFrameCornersBold/></div>
+            <div className='category-item-back'><p>배경설정</p></div>
+          </div>
+        </div>
+        <div className="category-item-container">
+          <div className='category-item' ref={(el)=>{categoryBtnRef.current[1]=el}} onClick={()=>{flip(1)}}>
             <div className='category-item-front'><BiCube/></div>
             <div className='category-item-back'><p>도형</p></div>
           </div>
         </div>
         <div className="category-item-container">
-          <div className='category-item' ref={(el)=>{categoryBtnRef.current[1]=el}} onClick={()=>{flip(1)}}>
+          <div className='category-item' ref={(el)=>{categoryBtnRef.current[2]=el}} onClick={()=>{flip(2)}}>
             <div className='category-item-front'><BiCommentDetail/></div>
             <div className='category-item-back'><p>글상자</p></div>
           </div>
         </div>
         <div className="category-item-container">
-          <div className='category-item' ref={(el)=>{categoryBtnRef.current[2]=el}} onClick={()=>{flip(2)}}>
+          <div className='category-item' ref={(el)=>{categoryBtnRef.current[3]=el}} onClick={()=>{flip(3)}}>
             <div className='category-item-front'><BiImageAdd/></div>
             <div className='category-item-back'><p>이미지</p></div>
           </div>
         </div>
         <div className="category-item-container">
-          <div className='category-item' ref={(el)=>{categoryBtnRef.current[3]=el}} onClick={()=>{flip(3)}}>
+          <div className='category-item' ref={(el)=>{categoryBtnRef.current[4]=el}} onClick={()=>{flip(4)}}>
             <div className='category-item-front'><GoGraph/></div>
             <div className='category-item-back'><p>그래프</p></div>
           </div>
         </div>
         <div className="category-item-container">
-          <div className='category-item' ref={(el)=>{categoryBtnRef.current[4]=el}} onClick={()=>{flip(4)}}>
+          <div className='category-item' ref={(el)=>{categoryBtnRef.current[5]=el}} onClick={()=>{flip(5)}}>
             <div className='category-item-front'><PiFlowArrowFill/></div>
             <div className='category-item-back'><p>연대기</p></div>
           </div>
@@ -433,7 +499,19 @@ function EditPage() {
             onDragStart={console.log(snapshot)}
             ref={provided.innerRef}
             isdraggingover={snapshot.isDraggingOver.toString()}>
-            
+
+            <div ref={bgCtlRef} className="bg-controller">
+              <div className="bg-controller-content">
+                <ColorPicker title={"배경 색"} color={bgColor} setColor={setBgColor}/>
+              </div>
+              <div className="bg-controller-content">
+                <ColorPicker title={"기본 글자 색"} color={textColor} setColor={setTextColor}/>
+              </div>
+
+            </div>
+
+
+
             {kioItem ?
               kioItem.map((item, index) => (
                 <Draggable
@@ -458,16 +536,20 @@ function EditPage() {
                 </Draggable>
               ))
             :
-            <div className="noneClicked">
-              <BiLeftArrow/> <p>카테고리를 클릭해주세요</p>
-            </div>
+              page == 0 ?
+                null
+                :
+                <div className="noneClicked">
+                  <BiLeftArrow/> <p>카테고리를 클릭해주세요</p>
+                </div>
             }
             
 
           </Kiosk>
         )}
       </Droppable>
-        <Content>
+      <div ref={bgRef} className="bg">
+      <Content>
           <Button onClick={addList}>
             <svg width="24" height="24" viewBox="0 0 24 24">
               <path
@@ -527,6 +609,8 @@ function EditPage() {
         );
       })}
     </Content>
+        
+      </div>
   </DragDropContext>
   );
 }

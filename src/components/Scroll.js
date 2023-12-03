@@ -1,17 +1,20 @@
 import { useState, useRef, forwardRef, useEffect } from "react";
 import '../App.css';
 import { CiCirclePlus } from "react-icons/ci";
+import ColorPicker from "./ColorPicker.js";
+
 const Scroll = forwardRef( (props, ref)=>{
   const [dataState, setDataState] = useState({
     r1:"", r2:"", r3:"", r4:"", r5:"", r6:"",
     t1:"", t2:"", t3:"", t4:"", t5:"", t6:"",
+    c:"", tc:"",
   });
 
   let uploadImage = (e, idx)=>{
     const file = e.target.files[0];
     const imageURL = URL.createObjectURL(file);
     
-    let tempURL = {...dataState}
+    let tempURL = {...dataState, c: bColor, tc: tColor}
     tempURL[idx] = imageURL;
     setDataState(tempURL);
 
@@ -29,7 +32,7 @@ const Scroll = forwardRef( (props, ref)=>{
   }
   let saveText = ()=>{
     // let val = e.target.value;
-    let tempDataState = {...dataState};
+    let tempDataState = {...dataState, c: bColor, tc: tColor};
     // tempDataState[idx] = val;
 
     let temp = [...props.dataList]
@@ -44,13 +47,25 @@ const Scroll = forwardRef( (props, ref)=>{
     temp.push({id:props.id, data:tempDataState});
     props.setDataList(temp);
   }
+
+  const [temp, setTemp] = useState(false);
+  
   useEffect(()=>{
     if(typing == -1 || typing == false){
       props.dataList.forEach((it)=>{if(it.id == props.id){
         setDataState(it.data);
+        setBColor(it.data.c);
+        setTColor(it.data.tc);
       }});
     }
   },[])
+
+  useEffect(()=>{
+    let time = setTimeout(() => {
+      setTemp(true);
+    },500);
+  },[])
+
   const [typing, setTyping] = useState(-1);
   useEffect(()=>{
     if(typing !== -1){
@@ -61,7 +76,7 @@ const Scroll = forwardRef( (props, ref)=>{
         setTimeout(() => {
           console.log("HELL");
           setTyping(false);
-        }, 500);
+        }, 1000);
       }
     }
   },[typing])
@@ -100,18 +115,57 @@ const Scroll = forwardRef( (props, ref)=>{
   let inputBtnRef4 = useRef();
   let inputBtnRef5 = useRef();
   let inputBtnRef6 = useRef();
+  let cpRef = useRef();
+  let cpVisible = ()=>{
+    if (cpRef.current.classList.contains("visible")){
+      cpRef.current.classList.remove("visible")
+    }
+    else{
+      cpRef.current.classList+= " visible"
+    }
+  }
+  // 블록 컬러
+  const [bColor, setBColor] = useState("#ccc");
+  const [tColor, setTColor] = useState("#000");
+  
+  useEffect(()=>{
+    let scrollItem = document.getElementsByClassName("scroll-item");
+    scrollItem = [...scrollItem];
+    if(scrollItem){
+      scrollItem.forEach(it=>it.style.backgroundColor = bColor);
+    }
+  },[bColor])
+  useEffect(()=>{
+    let ta = document.getElementsByClassName("scroll-item-content")
+    ta = [...ta];
+    ta.forEach(it=>it.style.color = tColor)
+  },[tColor])
+
+  
   return(
     <>
     <div className="wrapper">
+      <div ref={cpRef} className="block-colorPicker-container">
+        {
+          temp ?
+          <>
+            <ColorPicker title={"블록색"} color={dataState.c} setColor={setBColor}/>
+            <ColorPicker title={"글자색"} color={dataState.tc} setColor={setTColor}/>
+          </>
+          :
+          <></>
+        }
+      </div>
       <button className="scroll-save-btn" onClick={()=>{saveText()}}>저장</button>
       <button className="scroll-handle-btn" onClick={()=>{handleScroll()}}>
         {
           aniPlayState == "running" ?
-            "멈춤"
+          "멈춤"
           :
-            "진행"
+          "진행"
         }
       </button>
+      <button className="scroll-colorPicker-btn" onClick={()=>{cpVisible()}}>Color</button>
       <div className="uploadImage-btn-container">
         <input ref={inputRef1} className="uploadImage-input" type="file"id="image_uploads"name="image_uploads"accept=".jpg, .jpeg, .png" onChange={(e)=>{uploadImage(e,"r1")}}/>
       </div>
