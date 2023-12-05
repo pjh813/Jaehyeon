@@ -16,6 +16,7 @@ import AboutMe from "../components/AboutMe.js";
 import Scroll from "../components/Scroll.js";
 import Profile from "../components/Profile.js";
 import ColorPicker from "../components/ColorPicker.js";
+import Shape from "../components/Shape.js";
 
 function EditPage() {
   // navigator

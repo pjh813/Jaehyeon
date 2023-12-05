@@ -1,0 +1,193 @@
+
+.flex-container{
+  display:flex;
+  position:relative;
+  flex-direction: row;
+
+  width:80vw;
+  margin-top:100px;
+ 
+
+
+
+
+
+    overflow-x: auto
+}
+
+  .shape-container-row {
+    height: 800px; /* 높이를 300px로 설정 */
+    width:500px;
+    display: flex;
+flex-shrink: 0;
+
+}
+.shape-container-column {
+  position: relative;
+  margin-bottom: 200px; 
+
+}
+  .point-row {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-top:300px;
+    position:absolute;
+
+  }
+  .line-row {
+
+    width: 500px;
+    height: 2px; 
+    margin-top:310px;
+
+    position:absolute;
+  }
+  .circle-row {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-top:300px;
+    position:absolute;
+    margin-left:490px;
+
+
+  }
+  .point-column, .line-column, .circle-column, .text-box-column {
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+  }
+  .point-column {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    
+  }
+  
+  .line-column {
+    width: 2px;
+    height: 200px; 
+  }
+  
+  .circle-column {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 200px; 
+  }
+  
+  .text-box-left,.text-box-right,.text-box-last-left,.text-box-last-right {
+    position : absolute;
+    width: 250px; 
+    top:0px;
+    background-color: #fff; 
+    padding: 5px; 
+
+    resize: both;
+    overflow: visible;
+  }
+  
+
+
+
+  .text-box-left {
+
+    left: 10%; 
+    transform: translateX(60%); 
+    
+  }
+  
+  .text-box-right {
+
+    right: 100%; 
+    transform: translateX(-170%); 
+  }
+  .text-box-last-left {
+    top: 200px;
+    left: 10%; 
+    transform: translateX(60%); 
+  }
+  .text-box-last-right {
+    font-family:  arial ;
+    top:200px;
+    right: 100%; 
+    transform: translateX(-170%); 
+  }
+  
+
+  .text-box-bottom,.text-box-top,.text-box-last-bottom,.text-box-last-top{
+    width: 250px; 
+    height:100px;
+    top:10px;
+    background-color: #fff; 
+    padding: 5px; 
+    overflow: visible;
+    flex-wrap: nowrap;
+  }
+
+
+.text-box-bottom {
+top: 360px;
+position: absolute;
+}
+
+.text-box-top {
+  top: 0px;
+  position: absolute;
+}
+
+.text-box-last-bottom {
+  top: 360px;
+  margin-top:30px;
+  margin-left : 490px;
+
+}
+
+.text-box-last-top {
+  top: 0px;
+}
+
+
+
+
+  .shapes-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; /* 도형들을 가운데 정렬하는 스타일 */
+  }
+  .button{
+    width : 100px;
+    height : 50px;
+    margin : 36px 10px;
+  }
+  .button1 {
+    width: 50px;
+    height: 91px;
+    margin: 10px 3px;
+  }
+
+  .shape-creation-area {
+    /* 기존 스타일 */
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow: visible;
+}
+.text-area1,.text-area2,.text-area3{
+  width:400px;
+}
+
+.text-area1{
+  font-size: 30px;
+
+}
+.text-area2{
+  font-size: 20px;
+
+}
+.text-area3{
+  font-size: 15px;
+
+}
